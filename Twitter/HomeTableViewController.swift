@@ -18,6 +18,7 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadTweets()
         
         myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
@@ -44,6 +45,11 @@ class HomeTableViewController: UITableViewController {
             print("Could not retrieve tweets!")
         })
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.loadTweets()
     }
     
     func loadMoreTweets(){
@@ -97,8 +103,14 @@ class HomeTableViewController: UITableViewController {
             cell.profileImageView.image = UIImage(data:imageData)
             
         }
+        
+        cell.setFavourite(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.tweetID = tweetArray[indexPath.row]["id"] as! Int
+        cell.setRetweeted(tweetArray[indexPath.row]["retweeted"] as! Bool)
+        
         return cell
     }
+
     
     
     override func numberOfSections(in tableView: UITableView) -> Int {
